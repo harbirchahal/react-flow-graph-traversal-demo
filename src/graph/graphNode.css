@@ -1,0 +1,23 @@
+/* Button */
+.p-button.p-button-icon-only {
+  width: 1rem !important;
+  padding: 0 !important;
+}
+
+/* Card */
+.p-card-body {
+  padding: 0.5rem !important;
+}
+
+.p-card-content {
+  font-size: 1rem !important;
+  font-weight: lighter !important;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 !important;
+}
+
+/* Custom */
+.label {
+  border-color: var(--gray-400);
+}
