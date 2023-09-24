@@ -1,12 +1,17 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Edge, Node } from "reactflow";
+import { DefaultEdgeOptions, Edge, MarkerType, Node } from "reactflow";
 
 import { AppState, GraphState } from "./types";
 
 const initialState: GraphState = {
   nodes: [],
   edges: [],
+  edgeOptions: {
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },
 };
 
 const slice = createSlice({
@@ -33,12 +38,20 @@ const slice = createSlice({
       const nodeId = action.payload;
       state.edges = state.edges.filter((e) => e.id !== nodeId);
     },
+    setEdgeOptions(
+      state,
+      action: PayloadAction<{ key: keyof DefaultEdgeOptions; value: any }>
+    ) {
+      const { key, value } = action.payload;
+      state.edgeOptions[key] = value;
+    },
   },
 });
 
 const selectSelf = (state: AppState) => state.graph;
 const getNodes = createSelector(selectSelf, (state) => state.nodes);
 const getEdges = createSelector(selectSelf, (state) => state.edges);
+const getEdgeOptions = createSelector(selectSelf, (state) => state.edgeOptions);
 
 export default {
   name: slice.name,
@@ -47,5 +60,6 @@ export default {
   select: {
     getNodes,
     getEdges,
+    getEdgeOptions,
   },
 };

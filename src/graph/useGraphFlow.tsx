@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addEdge,
@@ -7,17 +7,31 @@ import {
   EdgeChange,
   NodeChange,
   Edge,
+  EdgeMarker,
   Connection,
   Node,
+  MarkerType,
 } from "reactflow";
 
+import { Direction } from "./types";
 import graphSlice from "../store/graphSlice";
 
 const useGraphFlow = () => {
   const dispatch = useDispatch();
   const nodes = useSelector(graphSlice.select.getNodes) ?? [];
   const edges = useSelector(graphSlice.select.getEdges) ?? [];
-  const selectedEdge = edges.find((e) => e.selected);
+  const edgeOptions = useSelector(graphSlice.select.getEdgeOptions);
+
+  const selectedEdge = useMemo(() => {
+    return edges.find((e) => e.selected);
+  }, [edges]);
+
+  const direction = useMemo(() => {
+    const type = (edgeOptions.markerEnd as EdgeMarker)?.type;
+    return type === MarkerType.ArrowClosed
+      ? Direction.DIRECTED
+      : Direction.UNDIRECTED;
+  }, [edgeOptions]);
 
   const onAddNode = (node: Node) => {
     dispatch(graphSlice.actions.addNode(node));
@@ -55,9 +69,28 @@ const useGraphFlow = () => {
     [edges]
   );
 
+  const onDirectionChange = (dir: Direction) => {
+    const markerEnd = {
+      type: dir === Direction.DIRECTED ? MarkerType.ArrowClosed : undefined,
+    };
+    dispatch(
+      graphSlice.actions.setEdgeOptions({ key: "markerEnd", value: markerEnd })
+    );
+    dispatch(
+      graphSlice.actions.setEdges(
+        edges.map((e) => ({
+          ...e,
+          markerEnd,
+        }))
+      )
+    );
+  };
+
   return {
     nodes,
     edges,
+    direction,
+    edgeOptions,
     selectedEdge,
     onAddNode,
     onRemoveNode,
@@ -65,6 +98,7 @@ const useGraphFlow = () => {
     onConnect,
     onNodesChange,
     onEdgesChange,
+    onDirectionChange,
   };
 };
 

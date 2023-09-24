@@ -1,25 +1,14 @@
 import { FC } from "react";
-import ReactFlow, {
-  Controls,
-  Background,
-  DefaultEdgeOptions,
-  NodeTypes,
-  MarkerType,
-} from "reactflow";
+import ReactFlow, { Controls, Background, NodeTypes } from "reactflow";
 
 import GraphActions from "./GraphActions";
 import GraphNode from "./GraphNode";
 import useGraphFlow from "./useGraphFlow";
 
 const nodeTypes: NodeTypes = { customNode: GraphNode };
-const defaultEdgeOptions: DefaultEdgeOptions = {
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-  },
-};
 
 const GraphFlow: FC = () => {
-  const { nodes, edges, onConnect, onNodesChange, onEdgesChange } =
+  const { nodes, edges, edgeOptions, onConnect, onNodesChange, onEdgesChange } =
     useGraphFlow();
 
   return (
@@ -30,7 +19,7 @@ const GraphFlow: FC = () => {
           fitView
           nodes={nodes}
           edges={edges}
-          defaultEdgeOptions={defaultEdgeOptions}
+          defaultEdgeOptions={edgeOptions}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}

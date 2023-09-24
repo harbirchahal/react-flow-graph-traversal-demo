@@ -1,4 +1,9 @@
-export enum GraphTraverseOp {
-  DEPTH_FIRST = "DF",
-  BREADTH_FIRST = "BF",
+export enum TraverseOp {
+  DEPTH_FIRST = "depthFirst",
+  BREADTH_FIRST = "breadthFirst",
+}
+
+export enum Direction {
+  DIRECTED = "directed",
+  UNDIRECTED = "undirected",
 }

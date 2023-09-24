@@ -10,15 +10,15 @@ import {
   breadthFirstTraverse,
 } from "./traverseUtils";
 import useGraphFlow from "./useGraphFlow";
-import { GraphTraverseOp } from "./types";
+import { TraverseOp } from "./types";
 
 type GraphTraverseProps = {
-  op: GraphTraverseOp | undefined;
+  op: TraverseOp | undefined;
   onClear: () => void;
 };
 
 const GraphTraverse: FC<GraphTraverseProps> = ({ op, onClear }) => {
-  const { nodes, edges } = useGraphFlow();
+  const { nodes, edges, direction } = useGraphFlow();
   const [opResult, setOpResult] = useState<{
     op: string;
     result: string[];
@@ -28,15 +28,15 @@ const GraphTraverse: FC<GraphTraverseProps> = ({ op, onClear }) => {
   }, [nodes]);
 
   useEffect(() => {
-    if (op === GraphTraverseOp.DEPTH_FIRST) {
+    if (op === TraverseOp.DEPTH_FIRST) {
       setOpResult({
         op: "Depth First Traverse",
-        result: [...depthFirstTraverse(nodes, edges)],
+        result: [...depthFirstTraverse(nodes, edges, direction)],
       });
-    } else if (op === GraphTraverseOp.BREADTH_FIRST) {
+    } else if (op === TraverseOp.BREADTH_FIRST) {
       setOpResult({
         op: "Breadth First Traverse",
-        result: [...breadthFirstTraverse(nodes, edges)],
+        result: [...breadthFirstTraverse(nodes, edges, direction)],
       });
     } else {
       setOpResult(undefined);

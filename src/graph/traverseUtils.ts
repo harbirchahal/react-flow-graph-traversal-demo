@@ -1,5 +1,7 @@
 import { Edge, Node } from "reactflow";
 
+import { Direction } from "./types";
+
 type ID = string;
 type AdjacencyList = Map<ID, Set<ID>>;
 
@@ -10,7 +12,7 @@ export function buildNodesDict(nodes: Node[]) {
   );
 }
 
-function buildAdjacencyList(edges: Edge[]) {
+function buildAdjacencyList(edges: Edge[], direction: Direction) {
   const adjList: AdjacencyList = new Map();
 
   function addEdge(source: ID, target: ID) {
@@ -22,6 +24,9 @@ function buildAdjacencyList(edges: Edge[]) {
 
   for (const edge of edges) {
     addEdge(edge.source, edge.target);
+    if (direction === Direction.UNDIRECTED) {
+      addEdge(edge.target, edge.source);
+    }
   }
 
   return adjList;
@@ -48,14 +53,18 @@ function* adjacentUnvisitedNodes(
   }
 }
 
-export function* depthFirstTraverse(nodes: Node[], edges: Edge[]) {
+export function* depthFirstTraverse(
+  nodes: Node[],
+  edges: Edge[],
+  direction: Direction
+) {
   if (!nodes.length) {
     return;
   }
 
   const stack: ID[] = [];
   const visited = new Set<ID>();
-  const adjacency = buildAdjacencyList(edges);
+  const adjacency = buildAdjacencyList(edges, direction);
 
   stack.push(nodes[0].id);
   visited.add(nodes[0].id);
@@ -78,14 +87,18 @@ export function* depthFirstTraverse(nodes: Node[], edges: Edge[]) {
   }
 }
 
-export function* breadthFirstTraverse(nodes: Node[], edges: Edge[]) {
+export function* breadthFirstTraverse(
+  nodes: Node[],
+  edges: Edge[],
+  direction: Direction
+) {
   if (!nodes.length) {
     return;
   }
 
   const queue: ID[] = [];
   const visited = new Set<ID>();
-  const adjacency = buildAdjacencyList(edges);
+  const adjacency = buildAdjacencyList(edges, direction);
 
   queue.push(nodes[0].id);
   visited.add(nodes[0].id);
