@@ -12,7 +12,7 @@ export function buildNodesDict(nodes: Node[]) {
   );
 }
 
-function buildAdjacencyList(edges: Edge[], direction: Direction) {
+function buildAdjacencyList(edges: Edge[], direction?: Direction) {
   const adjList: AdjacencyList = new Map();
 
   function addEdge(source: ID, target: ID) {
@@ -56,7 +56,8 @@ function* adjacentUnvisitedNodes(
 export function* depthFirstTraverse(
   nodes: Node[],
   edges: Edge[],
-  direction: Direction
+  direction?: Direction,
+  rootNode?: Node
 ) {
   if (!nodes.length) {
     return;
@@ -65,10 +66,11 @@ export function* depthFirstTraverse(
   const stack: ID[] = [];
   const visited = new Set<ID>();
   const adjacency = buildAdjacencyList(edges, direction);
+  const startNode = rootNode?.id ?? nodes[0].id;
 
-  stack.push(nodes[0].id);
-  visited.add(nodes[0].id);
-  yield nodes[0].id;
+  stack.push(startNode);
+  visited.add(startNode);
+  yield startNode;
 
   while (stack.length) {
     const visit = stack[stack.length - 1];
@@ -90,7 +92,8 @@ export function* depthFirstTraverse(
 export function* breadthFirstTraverse(
   nodes: Node[],
   edges: Edge[],
-  direction: Direction
+  direction?: Direction,
+  rootNode?: Node
 ) {
   if (!nodes.length) {
     return;
@@ -99,9 +102,10 @@ export function* breadthFirstTraverse(
   const queue: ID[] = [];
   const visited = new Set<ID>();
   const adjacency = buildAdjacencyList(edges, direction);
+  const startNode = rootNode?.id ?? nodes[0].id;
 
-  queue.push(nodes[0].id);
-  visited.add(nodes[0].id);
+  queue.push(startNode);
+  visited.add(startNode);
 
   while (queue.length) {
     const visit = queue.shift();

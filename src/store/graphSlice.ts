@@ -1,17 +1,14 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { DefaultEdgeOptions, Edge, MarkerType, Node } from "reactflow";
+import { DefaultEdgeOptions, Node } from "reactflow";
 
 import { AppState, GraphState } from "./types";
 
 const initialState: GraphState = {
   nodes: [],
   edges: [],
-  edgeOptions: {
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-  },
+  edgeOptions: {},
+  rootNodeId: undefined,
 };
 
 const slice = createSlice({
@@ -30,6 +27,9 @@ const slice = createSlice({
       state.edges = state.edges.filter(
         (e) => e.source !== nodeId && e.target !== nodeId
       );
+      if (state.rootNodeId === nodeId) {
+        state.rootNodeId = state.nodes[0]?.id;
+      }
     },
     setEdges(state, action: PayloadAction<any>) {
       state.edges = action.payload;
@@ -45,6 +45,9 @@ const slice = createSlice({
       const { key, value } = action.payload;
       state.edgeOptions[key] = value;
     },
+    setRootNode(state, action: PayloadAction<string | undefined>) {
+      state.rootNodeId = action.payload;
+    },
   },
 });
 
@@ -52,6 +55,13 @@ const selectSelf = (state: AppState) => state.graph;
 const getNodes = createSelector(selectSelf, (state) => state.nodes);
 const getEdges = createSelector(selectSelf, (state) => state.edges);
 const getEdgeOptions = createSelector(selectSelf, (state) => state.edgeOptions);
+const getSelectedEdge = createSelector(selectSelf, (state) =>
+  state.edges.find((e) => e.selected)
+);
+const getRootNode = createSelector(selectSelf, (state) =>
+  state.nodes.find((n) => n.id === state.rootNodeId)
+);
+
 
 export default {
   name: slice.name,
@@ -61,5 +71,7 @@ export default {
     getNodes,
     getEdges,
     getEdgeOptions,
+    getSelectedEdge,
+    getRootNode,
   },
 };

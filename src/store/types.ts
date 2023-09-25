@@ -4,6 +4,7 @@ export type GraphState = {
   nodes: Node[];
   edges: Edge[];
   edgeOptions: DefaultEdgeOptions;
+  rootNodeId?: string;
 };
 
 export type ViewState = {

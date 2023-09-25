@@ -18,7 +18,7 @@ type GraphTraverseProps = {
 };
 
 const GraphTraverse: FC<GraphTraverseProps> = ({ op, onClear }) => {
-  const { nodes, edges, direction } = useGraphFlow();
+  const { nodes, edges, direction, rootNode } = useGraphFlow();
   const [opResult, setOpResult] = useState<{
     op: string;
     result: string[];
@@ -31,23 +31,23 @@ const GraphTraverse: FC<GraphTraverseProps> = ({ op, onClear }) => {
     if (op === TraverseOp.DEPTH_FIRST) {
       setOpResult({
         op: "Depth First Traverse",
-        result: [...depthFirstTraverse(nodes, edges, direction)],
+        result: [...depthFirstTraverse(nodes, edges, direction, rootNode)],
       });
     } else if (op === TraverseOp.BREADTH_FIRST) {
       setOpResult({
         op: "Breadth First Traverse",
-        result: [...breadthFirstTraverse(nodes, edges, direction)],
+        result: [...breadthFirstTraverse(nodes, edges, direction, rootNode)],
       });
     } else {
       setOpResult(undefined);
     }
-  }, [op, nodes, edges]);
+  }, [op, nodes, edges, rootNode]);
 
   const renderResult = () => {
     if (opResult) {
       const title = (
         <div className="flex align-items-center justify-content-between">
-          <div className="font-medium">{opResult.op}</div>
+          <div className="font-normal">{opResult.op}</div>
           <Button
             text
             icon={PrimeIcons.TIMES}

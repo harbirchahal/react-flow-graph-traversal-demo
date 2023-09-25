@@ -11,13 +11,18 @@ import { MenuItem } from "primereact/menuitem";
 import useGraphFlow from "./useGraphFlow";
 
 const GraphNode = (node: NodeProps) => {
-  const { onRemoveNode } = useGraphFlow();
+  const { rootNode, onRemoveNode, onRootNodeChange } = useGraphFlow();
   const menuRef = useRef<Menu>(null);
 
   const menuItems: MenuItem[] = [
     {
       label: "Options",
       items: [
+        {
+          label: "Make Root",
+          icon: PrimeIcons.MAP_MARKER,
+          command: () => onRootNodeChange(node.id),
+        },        
         {
           label: "Delete",
           icon: PrimeIcons.TRASH,
@@ -27,11 +32,16 @@ const GraphNode = (node: NodeProps) => {
     },
   ];
 
+  const labelClasses = () => {
+    const classes = "label border-1 border-round px-2";
+    return node.id === rootNode?.id ? classes.concat(" root-node") : classes;
+  };
+
   return (
     <>
       <Handle type="target" position={Position.Top} />
       <Card>
-        <div className="label border-1 border-round px-2">
+        <div className={labelClasses()}>
           {node.data.label}
         </div>
         <Button

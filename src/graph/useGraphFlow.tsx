@@ -21,10 +21,8 @@ const useGraphFlow = () => {
   const nodes = useSelector(graphSlice.select.getNodes) ?? [];
   const edges = useSelector(graphSlice.select.getEdges) ?? [];
   const edgeOptions = useSelector(graphSlice.select.getEdgeOptions);
-
-  const selectedEdge = useMemo(() => {
-    return edges.find((e) => e.selected);
-  }, [edges]);
+  const selectedEdge = useSelector(graphSlice.select.getSelectedEdge);
+  const rootNode = useSelector(graphSlice.select.getRootNode);
 
   const direction = useMemo(() => {
     const type = (edgeOptions.markerEnd as EdgeMarker)?.type;
@@ -86,11 +84,16 @@ const useGraphFlow = () => {
     );
   };
 
+  const onRootNodeChange = (id: string) => {
+    dispatch(graphSlice.actions.setRootNode(id));
+  };
+
   return {
     nodes,
     edges,
     direction,
     edgeOptions,
+    rootNode,
     selectedEdge,
     onAddNode,
     onRemoveNode,
@@ -99,6 +102,7 @@ const useGraphFlow = () => {
     onNodesChange,
     onEdgesChange,
     onDirectionChange,
+    onRootNodeChange,
   };
 };
 

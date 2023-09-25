@@ -23,6 +23,7 @@ const GraphData: FC = () => {
         const { nodes, edges } = graphDataToFlow(jsData);
         dispatch(graphSlice.actions.setNodes(nodes));
         dispatch(graphSlice.actions.setEdges(edges));
+        dispatch(graphSlice.actions.setRootNode(nodes[0]?.id));
         dispatch(viewSlice.actions.setActiveTab(1));
       } else {
         throw new Error();

@@ -21,3 +21,8 @@
 .label {
   border-color: var(--gray-400);
 }
+
+.label.root-node {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
