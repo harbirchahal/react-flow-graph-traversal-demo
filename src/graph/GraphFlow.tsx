@@ -1,11 +1,18 @@
 import { FC } from "react";
-import ReactFlow, { Controls, Background, NodeTypes } from "reactflow";
+import ReactFlow, {
+  Controls,
+  Background,
+  NodeTypes,
+  EdgeTypes,
+} from "reactflow";
 
 import GraphActions from "./GraphActions";
 import GraphNode from "./GraphNode";
+import GraphEdge from "./GraphEdge";
 import useGraphFlow from "./useGraphFlow";
 
 const nodeTypes: NodeTypes = { customNode: GraphNode };
+const edgeTypes: EdgeTypes = { customEdge: GraphEdge };
 
 const GraphFlow: FC = () => {
   const { nodes, edges, edgeOptions, onConnect, onNodesChange, onEdgesChange } =
@@ -24,6 +31,7 @@ const GraphFlow: FC = () => {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
         >
           <Background />
           <Controls />

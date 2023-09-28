@@ -26,8 +26,11 @@ function dataToEdges(data: Array<Array<number>>): Edge[] {
   for (const v of data) {
     const node1 = ids.get(v[0]) ?? `n${v[0]}`;
     const node2 = ids.get(v[1]) ?? `n${v[1]}`;
+    const weight = v[2];
     edges = addEdge(
       {
+        type: "customEdge",
+        data: { weight },
         source: node1,
         sourceHandle: null,
         target: node2,
@@ -52,7 +55,7 @@ export function createGraphNode(nid?: number, position?: XYPosition): Node {
   return {
     id: `n${id}`,
     type: "customNode",
-    data: { label: `${id}` },
+    data: { label: id },
     position: position ?? { x: 0, y: 0 },
   };
 }

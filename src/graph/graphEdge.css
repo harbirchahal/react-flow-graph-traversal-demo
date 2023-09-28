@@ -1,0 +1,5 @@
+/* Custom */
+.edge-label {
+  background: var(--highlight-bg);
+  color: var(--text-color-secondary);
+}

@@ -22,7 +22,7 @@ const GraphNode = (node: NodeProps) => {
           label: "Make Root",
           icon: PrimeIcons.MAP_MARKER,
           command: () => onRootNodeChange(node.id),
-        },        
+        },
         {
           label: "Delete",
           icon: PrimeIcons.TRASH,
@@ -33,7 +33,7 @@ const GraphNode = (node: NodeProps) => {
   ];
 
   const labelClasses = () => {
-    const classes = "label border-1 border-round px-2";
+    const classes = "node-label border-1 border-round px-2";
     return node.id === rootNode?.id ? classes.concat(" root-node") : classes;
   };
 
@@ -41,9 +41,7 @@ const GraphNode = (node: NodeProps) => {
     <>
       <Handle type="target" position={Position.Top} />
       <Card>
-        <div className={labelClasses()}>
-          {node.data.label}
-        </div>
+        <div className={labelClasses()}>{node.data.label}</div>
         <Button
           text
           icon="pi pi-ellipsis-v"

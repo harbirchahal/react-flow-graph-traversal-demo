@@ -42,6 +42,8 @@ const GraphData: FC = () => {
         <code>
           Input accepts a 2D array of edges between vertices. So,
           [[1,2],[1,4],[2,3],[4,5]] draws a Graph with 5 Vertices and 3 Edges.
+          Nested array can also contain a third value designating edge weight.
+          Thus, a weighted graph input would be like [[1,2,11],[1,3,22]].
         </code>
       </div>
       <Controller
