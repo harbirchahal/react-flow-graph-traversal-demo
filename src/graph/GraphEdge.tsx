@@ -17,6 +17,7 @@ const GraphEdge = (props: EdgeProps) => {
     sourcePosition,
     targetPosition,
     data,
+    markerEnd,
   } = props;
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -29,8 +30,8 @@ const GraphEdge = (props: EdgeProps) => {
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
-      {data.weight && (
+      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
+      {data.weight != null && (
         <EdgeLabelRenderer>
           <div
             className="edge-label text-xs border-round p-1 nodrag nopan"

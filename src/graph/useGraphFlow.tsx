@@ -68,9 +68,8 @@ const useGraphFlow = () => {
   );
 
   const onDirectionChange = (dir: Direction) => {
-    const markerEnd = {
-      type: dir === Direction.DIRECTED ? MarkerType.ArrowClosed : undefined,
-    };
+    const markerEnd =
+      dir === Direction.DIRECTED ? { type: MarkerType.ArrowClosed } : undefined;
     dispatch(
       graphSlice.actions.setEdgeOptions({ key: "markerEnd", value: markerEnd })
     );
