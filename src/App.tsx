@@ -27,8 +27,9 @@ function App() {
         start={<div className="font-bold">React Flow Graph Traversal Demo</div>}
         end={
           <div className="flex gap-1">
-            {externalLinks.map((link) => (
+            {externalLinks.map((link, index) => (
               <a
+                key={index}
                 href={link.href}
                 target="_blank"
                 className="p-button p-button-secondary p-button-outlined p-button-sm px-2 no-underline"
